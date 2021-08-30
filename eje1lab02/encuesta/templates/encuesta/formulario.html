@@ -1,0 +1,30 @@
+<h2>{{ titulo }}</h2>
+<form action="{% url 'encuesta:enviar' %}" method="post">
+    {% csrf_token %}
+    Numero 1:
+    <input type="number" name="num1"><br>
+    Numero 2:
+    <input type="number" name="num2"><br>
+    Operacion:
+    <select name="ope">
+        <option value="suma">SUMA</option>
+        <option value="resta" selected="selected">RESTA</option>
+        <option value="multiplicacion">MULTIPLICACION</option>
+    
+
+    <input type="submit" name="submit" value="Enviar">
+</form>
+
+
+<form action="{% url 'encuesta:calcular' %}" method="post">
+    {% csrf_token %}
+    <br>
+    <br>
+    <h3>CALCULO DEL VOLUMEN DE UN CILINDRO</h3>
+    Introduzca el diametro en metros:
+    <input type="number" name="dia" step="any"><br>
+    Introduzca la altura en metros:
+    <input type="number" name="alt" step="any"><br>
+
+    <input type="submit" name="submit" value="Calcular">
+</form>
