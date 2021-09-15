@@ -1,0 +1,48 @@
+>>> a = Autor(nombre='Javier Perez',email='eperez@gmail.com')
+>>> a.save()
+>>> Autor.objects.all()
+<QuerySet [<Autor: Javier Perez>]>
+>>> primer = Autor.objects.get(pk=1)
+>>> primer.email
+'eperez@gmail.com'
+>>> primer.nombre
+'Javier Perez'
+>>> r1 = Receta.objects.create(titulo='Huevo Frito',ingredientes='huevo,sal,aceite',preparacion='calentar la sarten y bla bla bla', autor=primer)
+>>> Receta.objects.all()
+<QuerySet [<Receta: Huevo Frito>]>
+>>> c1 = Comentario.objects.create(receta=r1,texto='un clasico para desayunar')
+Comentario.objects.all()
+<QuerySet [<Comentario: un clasico para desayunar>]>
+>>> r2 = Receta.objects.create(
+... titulo='Agua Hervida',
+... ingredientes='agua',
+... preparacion='Poner la tetera en el bla bla bla bla',
+... autor=primer)
+>>> Receta.objects.all()
+<QuerySet [<Receta: Huevo Frito>, <Receta: Agua Hervida>]>
+>>> Receta.objects.exclude(ingredientes__startswith='A')
+<QuerySet [<Receta: Huevo Frito>, <Receta: Agua Hervida>]>
+>>> Receta.objects.filter(preparacion__contains='tetera')
+<QuerySet [<Receta: Agua Hervida>]>
+>>> Receta.objects.all().order_by('titulo').reverse()
+<QuerySet [<Receta: Huevo Frito>, <Receta: Agua Hervida>]>
+>>> Comentario.objects.filter(receta=r2) 
+<QuerySet []>
+>>> Receta.objects.filter(titulo='Huevo frito').update(titulo='Huevito frito')
+1
+>>> Receta.objects.all()
+<QuerySet [<Receta: Huevito frito>, <Receta: Agua Hervida>]>
+>>> Comentario.objects.filter(receta=r2).count()
+0
+>>> c3 = Comentario.objects.create( 
+... receta=r2,
+... texto='Receta sin sentido')
+>>> c3.delete()
+(1, {'recetas.Comentario': 1})
+>>> Comentario.objects.filter(receta=r2)  
+<QuerySet []>
+>>> Receta.objects.get(titulo='Agua Hervida').autor.nombre
+'Javier Perez'
+>>> Receta.objects.get(titulo='Agua Hervida').autor.email 
+'eperez@gmail.com'
+>>>
